@@ -1,3 +1,4 @@
+// src/Register.jsx
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/Card';
@@ -35,24 +36,25 @@ const Register = () => {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify({
           nom: formData.nom,
           prenom: formData.prenom,
           email: formData.email,
-          mot_de_passe: formData.mot_de_passe
+          mot_de_passe: formData.mot_de_passe,
+          confirmation_mot_de_passe: formData.confirmation_mot_de_passe
         })
       });
 
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.message || 'Erreur lors de l\'inscription');
+        throw new Error(data.message || "Erreur lors de l'inscription");
       }
 
       navigate('/login', {
-        state: { message: 'Inscription réussie ! Vous pouvez maintenant vous connecter.' }
+        state: { message: "Inscription réussie ! Vous pouvez maintenant vous connecter." }
       });
     } catch (err) {
       setError(err.message);
@@ -65,7 +67,6 @@ const Register = () => {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-slate-800 to-gray-900">
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:14px_24px]" />
       <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-      
       <div className="w-full max-w-md px-4 z-10">
         <Card className="backdrop-blur-xl bg-white/10 border border-white/20">
           <CardHeader className="space-y-3 pb-6">
@@ -92,7 +93,6 @@ const Register = () => {
                   value={formData.nom}
                   onChange={(e) => setFormData({ ...formData, nom: e.target.value })}
                   required
-                  className="bg-white/5 border-white/10 text-white placeholder:text-gray-400 focus:border-white/30 focus:ring-white/20"
                   placeholder="Votre nom"
                 />
               </div>
@@ -103,7 +103,6 @@ const Register = () => {
                   value={formData.prenom}
                   onChange={(e) => setFormData({ ...formData, prenom: e.target.value })}
                   required
-                  className="bg-white/5 border-white/10 text-white placeholder:text-gray-400 focus:border-white/30 focus:ring-white/20"
                   placeholder="Votre prénom"
                 />
               </div>
@@ -114,7 +113,6 @@ const Register = () => {
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   required
-                  className="bg-white/5 border-white/10 text-white placeholder:text-gray-400 focus:border-white/30 focus:ring-white/20"
                   placeholder="votre@email.com"
                 />
               </div>
@@ -125,7 +123,6 @@ const Register = () => {
                   value={formData.mot_de_passe}
                   onChange={(e) => setFormData({ ...formData, mot_de_passe: e.target.value })}
                   required
-                  className="bg-white/5 border-white/10 text-white placeholder:text-gray-400 focus:border-white/30 focus:ring-white/20"
                   placeholder="••••••••"
                   minLength={6}
                 />
@@ -137,15 +134,14 @@ const Register = () => {
                   value={formData.confirmation_mot_de_passe}
                   onChange={(e) => setFormData({ ...formData, confirmation_mot_de_passe: e.target.value })}
                   required
-                  className="bg-white/5 border-white/10 text-white placeholder:text-gray-400 focus:border-white/30 focus:ring-white/20"
                   placeholder="••••••••"
                   minLength={6}
                 />
               </div>
-              <Button 
-                type="submit" 
-                className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-medium py-2.5 rounded-lg transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98] disabled:opacity-70"
+              <Button
+                type="submit"
                 disabled={isLoading}
+                className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-medium py-2.5 rounded-lg transition-all duration-300"
               >
                 {isLoading ? (
                   <div className="flex items-center justify-center gap-2">
@@ -153,16 +149,13 @@ const Register = () => {
                     <span>Inscription en cours...</span>
                   </div>
                 ) : (
-                  'S\'inscrire'
+                  "S'inscrire"
                 )}
               </Button>
               <div className="text-center">
-                <span className="text-gray-400 text-sm">
-                  Déjà un compte ?{' '}
-                </span>
+                <span className="text-gray-400 text-sm">Déjà un compte ? </span>
                 <Button
                   variant="link"
-                  className="text-blue-400 hover:text-blue-300 font-semibold p-0 h-auto"
                   onClick={() => navigate('/login')}
                   type="button"
                 >
@@ -178,4 +171,3 @@ const Register = () => {
 };
 
 export default Register;
-

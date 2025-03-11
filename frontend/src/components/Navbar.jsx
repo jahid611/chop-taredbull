@@ -19,20 +19,20 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-gray-900/50 backdrop-blur-lg border-b border-white/10">
+    <nav className="bg-gradient-to-r from-indigo-800 via-purple-800 to-yellow-600 shadow-lg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
             <Logo />
           </div>
-          <div className="flex items-center space-x-4">
-            <Link to="/products" className="text-gray-300 hover:text-white transition-colors">
+          <div className="flex items-center space-x-6">
+            <Link to="/products" className="text-white font-semibold hover:text-yellow-300 transition-colors">
               Produits
             </Link>
-            <Link to="/cart" className="text-gray-300 hover:text-white transition-colors relative">
-              <ShoppingCart className="h-5 w-5" />
+            <Link to="/cart" className="text-white hover:text-yellow-300 relative transition-colors">
+              <ShoppingCart className="h-6 w-6" />
               {cartItemsCount > 0 && (
-                <span className="absolute -top-2 -right-2 bg-gradient-to-r from-emerald-400 to-purple-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                <span className="absolute -top-2 -right-2 bg-gradient-to-r from-yellow-400 to-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center shadow">
                   {cartItemsCount}
                 </span>
               )}
@@ -40,28 +40,27 @@ const Navbar = () => {
             {user ? (
               <div className="flex items-center space-x-4">
                 <Link to="/profile">
-                  <Button variant="outline" className="flex items-center space-x-2">
-                    <User className="h-4 w-4" />
-                    <span>{user.prenom}</span>
+                  <Button variant="outline" className="border-yellow-400 text-yellow-300 hover:bg-yellow-400 hover:text-white transition-all duration-300">
+                    <User className="h-4 w-4 mr-2" /> {user.prenom}
                   </Button>
                 </Link>
-                <Button 
-                  variant="ghost" 
+                <Button
+                  variant="ghost"
                   onClick={handleLogout}
-                  className="text-gray-300 hover:text-white"
+                  className="text-white hover:text-yellow-300 transition-colors"
                 >
                   <LogOut className="h-5 w-5" />
                 </Button>
               </div>
             ) : (
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center space-x-3">
                 <Link to="/register">
-                  <Button variant="outline">
+                  <Button variant="outline" className="border-yellow-400 text-yellow-300 hover:bg-yellow-400 hover:text-white transition-all duration-300">
                     Créer un compte
                   </Button>
                 </Link>
                 <Link to="/login">
-                  <Button className="bg-gradient-to-r from-emerald-400 to-purple-500 hover:from-emerald-500 hover:to-purple-600">
+                  <Button className="bg-gradient-to-r from-yellow-400 to-red-500 hover:from-yellow-500 hover:to-red-600 text-white transition duration-300">
                     Connexion
                   </Button>
                 </Link>
@@ -75,4 +74,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-
