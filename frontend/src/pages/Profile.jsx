@@ -22,8 +22,10 @@ import {
   Package,
 } from 'lucide-react';
 import { AuthContext } from '../contexts/AuthContext';
+import { useTranslation } from 'react-i18next';
 
 const Profile = () => {
+  const { t } = useTranslation();
   const { user, logout } = useContext(AuthContext);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -32,23 +34,10 @@ const Profile = () => {
     email: user?.email || '',
   });
 
-  if (!user) {
-    navigate('/login');
-    return null;
-  }
+  // Par défaut, pas de commandes
+  const orders = [];
 
-  const handleLogout = () => {
-    logout();
-    navigate('/login');
-  };
-
-  // Commandes factices pour la démo
-  const orders = [
-    { id: '1', date: '2024-01-15', status: 'Livré', total: 199.99 },
-    { id: '2', date: '2024-01-10', status: 'En cours', total: 149.99 },
-    { id: '3', date: '2023-12-28', status: 'En préparation', total: 299.99 },
-  ];
-
+  // Fonction pour colorer l'état de la commande
   const getStatusColor = (status) => {
     switch (status) {
       case 'Livré':
@@ -60,6 +49,16 @@ const Profile = () => {
       default:
         return 'text-gray-500';
     }
+  };
+
+  if (!user) {
+    navigate('/login');
+    return null;
+  }
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
   };
 
   return (
@@ -90,7 +89,7 @@ const Profile = () => {
                   onClick={handleLogout}
                 >
                   <LogOut className="w-4 h-4 mr-2" />
-                  Se déconnecter
+                  {t('navbar.logout')}
                 </Button>
               </div>
             </CardContent>
@@ -105,21 +104,21 @@ const Profile = () => {
                   className="data-[state=active]:bg-gray-700 text-white"
                 >
                   <User className="w-4 h-4 mr-2" />
-                  Aperçu
+                  {t('profile.overview')}
                 </TabsTrigger>
                 <TabsTrigger
                   value="orders"
                   className="data-[state=active]:bg-gray-700 text-white"
                 >
                   <ShoppingBag className="w-4 h-4 mr-2" />
-                  Commandes
+                  {t('profile.orders')}
                 </TabsTrigger>
                 <TabsTrigger
                   value="settings"
                   className="data-[state=active]:bg-gray-700 text-white"
                 >
                   <Settings className="w-4 h-4 mr-2" />
-                  Paramètres
+                  {t('profile.settings')}
                 </TabsTrigger>
               </TabsList>
 
@@ -133,9 +132,9 @@ const Profile = () => {
                           <ShoppingBag className="w-8 h-8 text-red-500" />
                           <div>
                             <p className="text-sm text-gray-400">
-                              Total Commandes
+                              {t('profile.stats.totalOrders')}
                             </p>
-                            <h3 className="text-2xl font-bold text-white">12</h3>
+                            <h3 className="text-2xl font-bold text-white">0</h3>
                           </div>
                         </div>
                       </CardContent>
@@ -145,8 +144,10 @@ const Profile = () => {
                         <div className="flex items-center space-x-4">
                           <Package className="w-8 h-8 text-yellow-500" />
                           <div>
-                            <p className="text-sm text-gray-400">En cours</p>
-                            <h3 className="text-2xl font-bold text-white">2</h3>
+                            <p className="text-sm text-gray-400">
+                              {t('profile.stats.inProgress')}
+                            </p>
+                            <h3 className="text-2xl font-bold text-white">0</h3>
                           </div>
                         </div>
                       </CardContent>
@@ -157,11 +158,9 @@ const Profile = () => {
                           <CreditCard className="w-8 h-8 text-blue-500" />
                           <div>
                             <p className="text-sm text-gray-400">
-                              Total Dépensé
+                              {t('profile.stats.totalSpent')}
                             </p>
-                            <h3 className="text-2xl font-bold text-white">
-                              649.97 €
-                            </h3>
+                            <h3 className="text-2xl font-bold text-white">0 €</h3>
                           </div>
                         </div>
                       </CardContent>
@@ -171,42 +170,48 @@ const Profile = () => {
                   {/* Dernières commandes */}
                   <Card className="bg-gray-800/50 border border-gray-700 shadow-sm">
                     <CardHeader>
-                      <CardTitle>Dernières Commandes</CardTitle>
+                      <CardTitle>{t('profile.lastOrders.title')}</CardTitle>
                       <CardDescription>
-                        Vos 3 dernières commandes
+                        {t('profile.lastOrders.description')}
                       </CardDescription>
                     </CardHeader>
                     <CardContent>
-                      <div className="space-y-4">
-                        {orders.map((order) => (
-                          <div
-                            key={order.id}
-                            className="flex items-center justify-between p-4 rounded-lg bg-gray-700/50"
-                          >
-                            <div className="flex items-center space-x-4">
-                              <div className="bg-gray-600 p-2 rounded-lg">
-                                <Package className="w-6 h-6 text-white" />
+                      {orders.length === 0 ? (
+                        <div className="text-center text-gray-400 py-4">
+                          {t('profile.noOrders')}
+                        </div>
+                      ) : (
+                        <div className="space-y-4">
+                          {orders.map((order) => (
+                            <div
+                              key={order.id}
+                              className="flex items-center justify-between p-4 rounded-lg bg-gray-700/50"
+                            >
+                              <div className="flex items-center space-x-4">
+                                <div className="bg-gray-600 p-2 rounded-lg">
+                                  <Package className="w-6 h-6 text-white" />
+                                </div>
+                                <div>
+                                  <p className="text-sm font-medium text-white">
+                                    {t('profile.orderPrefix')} #{order.id}
+                                  </p>
+                                  <p className="text-sm text-gray-400">
+                                    {order.date}
+                                  </p>
+                                </div>
                               </div>
-                              <div>
+                              <div className="text-right">
                                 <p className="text-sm font-medium text-white">
-                                  Commande #{order.id}
+                                  {order.total} €
                                 </p>
-                                <p className="text-sm text-gray-400">
-                                  {order.date}
+                                <p className={`text-sm ${getStatusColor(order.status)}`}>
+                                  {order.status}
                                 </p>
                               </div>
                             </div>
-                            <div className="text-right">
-                              <p className="text-sm font-medium text-white">
-                                {order.total} €
-                              </p>
-                              <p className={`text-sm ${getStatusColor(order.status)}`}>
-                                {order.status}
-                              </p>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
+                          ))}
+                        </div>
+                      )}
                     </CardContent>
                   </Card>
                 </div>
@@ -215,45 +220,51 @@ const Profile = () => {
               <TabsContent value="orders">
                 <Card className="bg-gray-800/50 border border-gray-700 shadow-sm">
                   <CardHeader>
-                    <CardTitle>Historique des Commandes</CardTitle>
-                    <CardDescription>Toutes vos commandes</CardDescription>
+                    <CardTitle>{t('profile.orderHistory.title')}</CardTitle>
+                    <CardDescription>{t('profile.orderHistory.description')}</CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <div className="space-y-6">
-                      {orders.map((order) => (
-                        <div
-                          key={order.id}
-                          className="flex flex-col md:flex-row md:items-center justify-between p-6 rounded-lg bg-gray-700/50"
-                        >
-                          <div className="flex items-center space-x-4">
-                            <div className="bg-gray-600 p-3 rounded-lg">
-                              <Package className="w-6 h-6 text-white" />
+                    {orders.length === 0 ? (
+                      <div className="text-center text-gray-400 py-4">
+                        {t('profile.noOrders')}
+                      </div>
+                    ) : (
+                      <div className="space-y-6">
+                        {orders.map((order) => (
+                          <div
+                            key={order.id}
+                            className="flex flex-col md:flex-row md:items-center justify-between p-6 rounded-lg bg-gray-700/50"
+                          >
+                            <div className="flex items-center space-x-4">
+                              <div className="bg-gray-600 p-3 rounded-lg">
+                                <Package className="w-6 h-6 text-white" />
+                              </div>
+                              <div>
+                                <p className="text-lg font-medium text-white">
+                                  {t('profile.orderPrefix')} #{order.id}
+                                </p>
+                                <p className="text-sm text-gray-400">
+                                  {order.date}
+                                </p>
+                              </div>
                             </div>
-                            <div>
-                              <p className="text-lg font-medium text-white">
-                                Commande #{order.id}
-                              </p>
-                              <p className="text-sm text-gray-400">
-                                {order.date}
-                              </p>
+                            <div className="mt-4 md:mt-0 flex items-center space-x-4">
+                              <div className="text-right">
+                                <p className="text-lg font-medium text-white">
+                                  {order.total} €
+                                </p>
+                                <p className={`text-sm ${getStatusColor(order.status)}`}>
+                                  {order.status}
+                                </p>
+                              </div>
+                              <Button variant="outline" size="sm">
+                                {t('profile.details')}
+                              </Button>
                             </div>
                           </div>
-                          <div className="mt-4 md:mt-0 flex items-center space-x-4">
-                            <div className="text-right">
-                              <p className="text-lg font-medium text-white">
-                                {order.total} €
-                              </p>
-                              <p className={`text-sm ${getStatusColor(order.status)}`}>
-                                {order.status}
-                              </p>
-                            </div>
-                            <Button variant="outline" size="sm">
-                              Détails
-                            </Button>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
+                        ))}
+                      </div>
+                    )}
                   </CardContent>
                 </Card>
               </TabsContent>
@@ -261,9 +272,9 @@ const Profile = () => {
               <TabsContent value="settings">
                 <Card className="bg-gray-800/50 border border-gray-700 shadow-sm">
                   <CardHeader>
-                    <CardTitle>Paramètres du Compte</CardTitle>
+                    <CardTitle>{t('profile.accountSettings.title')}</CardTitle>
                     <CardDescription>
-                      Gérez vos informations personnelles
+                      {t('profile.accountSettings.description')}
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
@@ -271,22 +282,19 @@ const Profile = () => {
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div className="space-y-2">
                           <label className="text-sm font-medium text-gray-300">
-                            Prénom
+                            {t('register.label.firstName')}
                           </label>
                           <Input
                             value={formData.prenom}
                             onChange={(e) =>
-                              setFormData({
-                                ...formData,
-                                prenom: e.target.value,
-                              })
+                              setFormData({ ...formData, prenom: e.target.value })
                             }
                             className="bg-gray-700/50 border border-gray-600 text-white"
                           />
                         </div>
                         <div className="space-y-2">
                           <label className="text-sm font-medium text-gray-300">
-                            Nom
+                            {t('register.label.name')}
                           </label>
                           <Input
                             value={formData.nom}
@@ -298,24 +306,21 @@ const Profile = () => {
                         </div>
                         <div className="space-y-2 md:col-span-2">
                           <label className="text-sm font-medium text-gray-300">
-                            Email
+                            {t('register.label.email')}
                           </label>
                           <Input
                             type="email"
                             value={formData.email}
                             onChange={(e) =>
-                              setFormData({
-                                ...formData,
-                                email: e.target.value,
-                              })
+                              setFormData({ ...formData, email: e.target.value })
                             }
                             className="bg-gray-700/50 border border-gray-600 text-white"
                           />
                         </div>
                       </div>
                       <div className="flex justify-end space-x-4">
-                        <Button variant="outline">Annuler</Button>
-                        <Button>Sauvegarder</Button>
+                        <Button variant="outline">{t('profile.cancel')}</Button>
+                        <Button>{t('profile.save')}</Button>
                       </div>
                     </form>
                   </CardContent>
@@ -323,9 +328,9 @@ const Profile = () => {
 
                 <Card className="mt-6 bg-gray-800/50 border border-gray-700 shadow-sm">
                   <CardHeader>
-                    <CardTitle>Notifications</CardTitle>
+                    <CardTitle>{t('profile.notifications.title')}</CardTitle>
                     <CardDescription>
-                      Gérez vos préférences de notifications
+                      {t('profile.notifications.description')}
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
@@ -335,15 +340,15 @@ const Profile = () => {
                           <Bell className="w-5 h-5 text-gray-400" />
                           <div>
                             <p className="text-sm font-medium text-white">
-                              Notifications par email
+                              {t('profile.notifications.email')}
                             </p>
                             <p className="text-sm text-gray-400">
-                              Recevez des mises à jour sur vos commandes
+                              {t('profile.notifications.emailDesc')}
                             </p>
                           </div>
                         </div>
                         <Button variant="outline" size="sm">
-                          Configurer
+                          {t('profile.configure')}
                         </Button>
                       </div>
                       <div className="flex items-center justify-between">
@@ -351,15 +356,15 @@ const Profile = () => {
                           <Shield className="w-5 h-5 text-gray-400" />
                           <div>
                             <p className="text-sm font-medium text-white">
-                              Sécurité
+                              {t('profile.notifications.security')}
                             </p>
                             <p className="text-sm text-gray-400">
-                              Gérez vos paramètres de sécurité
+                              {t('profile.notifications.securityDesc')}
                             </p>
                           </div>
                         </div>
                         <Button variant="outline" size="sm">
-                          Configurer
+                          {t('profile.configure')}
                         </Button>
                       </div>
                     </div>

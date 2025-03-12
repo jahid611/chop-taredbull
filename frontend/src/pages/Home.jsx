@@ -3,8 +3,10 @@ import { Button } from '../components/ui/Button';
 import { Card } from '../components/ui/Card';
 import { ArrowRight, ShoppingBag, Shield, Truck, Clock, Star } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const Home = () => {
+  const { t } = useTranslation();
   const [bestSellers, setBestSellers] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -17,26 +19,26 @@ const Home = () => {
         setBestSellers(data.slice(0, 4));
         setLoading(false);
       } catch (error) {
-        console.error('Erreur lors du chargement des produits:', error);
+        console.error(t('home.error.fetchProducts'), error);
         setLoading(false);
       }
     };
 
     fetchBestSellers();
-  }, []);
+  }, [t]);
 
   const categories = [
     {
       id: 1,
-      title: 'CLASSIQUE',
+      title: t('home.categories.classic.title'),
       image: 'https://media.istockphoto.com/id/537022544/fr/photo/en-aluminium-peut-de-boisson-%C3%A9nerg%C3%A9tique-glac%C3%A9-rouge-bull-arri%C3%A8re-plan.jpg?s=612x612&w=0&k=20&c=1do0_2Ud9FvMJtel09bKF5I2blx7C5ew6ti19X0rRRo=',
-      description: 'Les dernières innovations'
+      description: t('home.categories.classic.description')
     },
     {
       id: 2,
-      title: 'EDITIONS',
+      title: t('home.categories.editions.title'),
       image: 'https://i.pinimg.com/550x/dd/ed/7e/dded7e2b6be6af67421169197ab62fae.jpg',
-      description: 'Équipements sportifs'
+      description: t('home.categories.editions.description')
     }
   ];
 
@@ -58,15 +60,15 @@ const Home = () => {
         <section className="flex-grow">
           <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 text-center py-20 md:py-28">
             <h1 className="text-8xl md:text-6xl font-bold text-white mb-6">
-              Découvrez Notre Collection Red Bull
+              {t('home.hero.title')}
             </h1>
             <p className="text-gray-200 text-lg md:text-xl max-w-2xl mx-auto mb-8">
-              La boisson énergisante emblématique, associée aux dernières innovations et aux équipements sportifs de pointe.
+              {t('home.hero.subtitle')}
             </p>
             <div className="flex justify-center gap-4">
               <Link to="/products">
                 <Button className="bg-red-600 hover:bg-red-500">
-                  Explorer les produits
+                  {t('home.hero.button')}
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </Link>
@@ -78,29 +80,29 @@ const Home = () => {
         <section className="py-16 bg-black/50">
           <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 className="text-3xl font-bold text-center text-white mb-12">
-              Pourquoi nous choisir ?
+              {t('home.features.title')}
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
               {[
                 {
                   icon: ShoppingBag,
-                  title: 'Produits Premium',
-                  description: 'Sélection rigoureuse des meilleurs produits'
+                  title: t('home.features.productsPremium.title'),
+                  description: t('home.features.productsPremium.description')
                 },
                 {
                   icon: Shield,
-                  title: 'Paiement Sécurisé',
-                  description: 'Transactions 100% sécurisées'
+                  title: t('home.features.securePayment.title'),
+                  description: t('home.features.securePayment.description')
                 },
                 {
                   icon: Truck,
-                  title: 'Livraison Rapide',
-                  description: 'Livraison en 24/48h partout en France'
+                  title: t('home.features.fastDelivery.title'),
+                  description: t('home.features.fastDelivery.description')
                 },
                 {
                   icon: Clock,
-                  title: 'Support 24/7',
-                  description: 'Une équipe à votre écoute'
+                  title: t('home.features.support24_7.title'),
+                  description: t('home.features.support24_7.description')
                 }
               ].map((feature, index) => (
                 <Card
@@ -122,7 +124,7 @@ const Home = () => {
         <section className="py-16">
           <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 className="text-3xl font-bold text-center text-white mb-12">
-              Nos Catégories
+              {t('home.categories.title')}
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {categories.map((category) => (
@@ -153,7 +155,7 @@ const Home = () => {
         <section className="py-16 bg-black/30">
           <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 className="text-3xl font-bold text-center text-white mb-12">
-              Meilleures Ventes
+              {t('home.bestSellers.title')}
             </h2>
             {loading ? (
               <div className="flex justify-center">
@@ -171,7 +173,7 @@ const Home = () => {
                           className="object-cover w-full h-full transform group-hover:scale-110 transition-transform duration-500"
                         />
                         <div className="absolute top-2 right-2 bg-red-600 text-white px-2 py-1 rounded text-sm">
-                          Populaire
+                          {t('home.bestSellers.popular')}
                         </div>
                       </div>
                       <div className="p-4">
@@ -191,7 +193,7 @@ const Home = () => {
                             {Number(product.prix).toFixed(2)} €
                           </span>
                           <Button size="sm" className="bg-red-600 hover:bg-red-500">
-                            Voir plus
+                            {t('home.bestSellers.button')}
                           </Button>
                         </div>
                       </div>
@@ -207,14 +209,14 @@ const Home = () => {
         <section className="py-20">
           <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
-              Prêt à booster votre énergie ?
+              {t('home.cta.title')}
             </h2>
             <p className="text-gray-300 text-lg mb-8 max-w-2xl mx-auto">
-              Rejoignez des milliers de fans de Red Bull et découvrez notre sélection exclusive.
+              {t('home.cta.subtitle')}
             </p>
             <Link to="/products">
               <Button size="lg" className="bg-red-600 hover:bg-red-500">
-                Commencer vos achats
+                {t('home.cta.button')}
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </Link>

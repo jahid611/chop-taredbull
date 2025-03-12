@@ -1,13 +1,16 @@
-// src/Register.jsx
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '../../src/components/ui/Card';
 import { Button } from '../../src/components/ui/Button';
 import { Input } from '../../src/components/ui/Input';
 import { Loader2 } from 'lucide-react';
+import { AuthContext } from '../contexts/AuthContext';
+import { useTranslation } from 'react-i18next';
 
 const Register = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
+  const { login } = useContext(AuthContext);
   const [formData, setFormData] = useState({
     nom: '',
     prenom: '',
@@ -25,13 +28,14 @@ const Register = () => {
 
     try {
       if (formData.mot_de_passe !== formData.confirmation_mot_de_passe) {
-        throw new Error('Les mots de passe ne correspondent pas');
+        throw new Error(t('register.error.passwordMismatch'));
       }
 
       if (formData.mot_de_passe.length < 6) {
-        throw new Error('Le mot de passe doit contenir au moins 6 caractères');
+        throw new Error(t('register.error.passwordTooShort'));
       }
 
+      // Appel à l'API d'inscription
       const response = await fetch('http://localhost:5000/api/users/register', {
         method: 'POST',
         headers: {
@@ -50,12 +54,30 @@ const Register = () => {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.message || "Erreur lors de l'inscription");
+        throw new Error(data.message || t('register.error.registration'));
       }
 
-      navigate('/login', {
-        state: { message: "Inscription réussie ! Vous pouvez maintenant vous connecter." }
+      // Connexion automatique après inscription
+      const loginResponse = await fetch('http://localhost:5000/api/users/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          email: formData.email,
+          mot_de_passe: formData.mot_de_passe
+        })
       });
+
+      const loginData = await loginResponse.json();
+
+      if (!loginResponse.ok) {
+        throw new Error(loginData.message || t('register.error.autoLogin'));
+      }
+
+      // Mise à jour du contexte avec les infos de l'utilisateur connecté
+      login(loginData.user);
+      navigate('/');
     } catch (err) {
       setError(err.message);
     } finally {
@@ -72,11 +94,11 @@ const Register = () => {
           <CardHeader className="space-y-3 pb-6">
             <div>
               <CardTitle className="text-3xl font-bold text-center bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
-                Créer un compte
+                {t('register.title')}
               </CardTitle>
             </div>
             <p className="text-gray-400 text-center text-sm">
-              Rejoignez-nous pour accéder à toutes nos fonctionnalités
+              {t('register.subtitle')}
             </p>
           </CardHeader>
           <CardContent>
@@ -87,54 +109,66 @@ const Register = () => {
             )}
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-300">Nom</label>
+                <label className="text-sm font-medium text-gray-300">
+                  {t('register.label.name')}
+                </label>
                 <Input
                   type="text"
                   value={formData.nom}
                   onChange={(e) => setFormData({ ...formData, nom: e.target.value })}
                   required
-                  placeholder="Votre nom"
+                  placeholder={t('register.placeholder.name')}
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-300">Prénom</label>
+                <label className="text-sm font-medium text-gray-300">
+                  {t('register.label.firstName')}
+                </label>
                 <Input
                   type="text"
                   value={formData.prenom}
                   onChange={(e) => setFormData({ ...formData, prenom: e.target.value })}
                   required
-                  placeholder="Votre prénom"
+                  placeholder={t('register.placeholder.firstName')}
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-300">Email</label>
+                <label className="text-sm font-medium text-gray-300">
+                  {t('register.label.email')}
+                </label>
                 <Input
                   type="email"
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   required
-                  placeholder="votre@email.com"
+                  placeholder={t('register.placeholder.email')}
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-300">Mot de passe</label>
+                <label className="text-sm font-medium text-gray-300">
+                  {t('register.label.password')}
+                </label>
                 <Input
                   type="password"
                   value={formData.mot_de_passe}
                   onChange={(e) => setFormData({ ...formData, mot_de_passe: e.target.value })}
                   required
-                  placeholder="••••••••"
+                  placeholder={t('register.placeholder.password')}
                   minLength={6}
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-300">Confirmer le mot de passe</label>
+                <label className="text-sm font-medium text-gray-300">
+                  {t('register.label.confirmPassword')}
+                </label>
                 <Input
                   type="password"
                   value={formData.confirmation_mot_de_passe}
-                  onChange={(e) => setFormData({ ...formData, confirmation_mot_de_passe: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, confirmation_mot_de_passe: e.target.value })
+                  }
                   required
-                  placeholder="••••••••"
+                  placeholder={t('register.placeholder.confirmPassword')}
                   minLength={6}
                 />
               </div>
@@ -146,20 +180,22 @@ const Register = () => {
                 {isLoading ? (
                   <div className="flex items-center justify-center gap-2">
                     <Loader2 className="h-4 w-4 animate-spin" />
-                    <span>Inscription en cours...</span>
+                    <span>{t('register.loading')}</span>
                   </div>
                 ) : (
-                  "S'inscrire"
+                  t('register.submit')
                 )}
               </Button>
               <div className="text-center">
-                <span className="text-gray-400 text-sm">Déjà un compte ? </span>
+                <span className="text-gray-400 text-sm">
+                  {t('register.alreadyHaveAccount')}{' '}
+                </span>
                 <Button
                   variant="link"
                   onClick={() => navigate('/login')}
                   type="button"
                 >
-                  Se connecter
+                  {t('register.login')}
                 </Button>
               </div>
             </form>
