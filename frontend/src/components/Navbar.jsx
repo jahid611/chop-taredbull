@@ -19,8 +19,8 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-gradient-to-r from-indigo-800 via-purple-800 to-yellow-600 shadow-lg">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <nav className="bg-transparent shadow-lg">
+      <div className="max-w-8xl mx-auto px-1 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
             <Logo />
@@ -40,7 +40,7 @@ const Navbar = () => {
             {user ? (
               <div className="flex items-center space-x-4">
                 <Link to="/profile">
-                  <Button variant="outline" className="border-yellow-400 text-yellow-300 hover:bg-yellow-400 hover:text-white transition-all duration-300">
+                  <Button variant="outline" className="border-yellow-400 text-yellow-300 hover:bg-yellow-400 hover:text-black transition-all duration-300">
                     <User className="h-4 w-4 mr-2" /> {user.prenom}
                   </Button>
                 </Link>

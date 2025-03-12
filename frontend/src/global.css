@@ -1,0 +1,37 @@
+/* global.css */
+
+/* Import Tailwind layers */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Petit reset pour supprimer les marges/paddings par défaut du body/html */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Si tu as besoin d’un box-sizing plus global */
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+@keyframes clickAnimation {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.2);
+    opacity: 0;
+  }
+}
+
+.animate-click {
+  animation: clickAnimation 0.8s ease-in-out forwards;
+}
+

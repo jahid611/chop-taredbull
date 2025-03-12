@@ -1,3 +1,21 @@
+/* global.css */
+
+/* Import Tailwind layers */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Petit reset pour supprimer les marges/paddings par défaut du body/html */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Si tu as besoin d’un box-sizing plus global */
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}

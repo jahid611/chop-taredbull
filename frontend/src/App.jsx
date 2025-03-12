@@ -8,6 +8,7 @@ import Login from './components/Login';
 import Register from './components/Register';
 import Cart from './components/Cart';
 import Profile from './pages/Profile';
+import './global.css'; // Assurez-vous que ce fichier existe
 
 function App() {
   return (
@@ -29,4 +30,3 @@ function App() {
 }
 
 export default App;
-

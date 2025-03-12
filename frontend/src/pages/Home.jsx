@@ -28,181 +28,201 @@ const Home = () => {
   const categories = [
     {
       id: 1,
-      title: "Technologie",
-      image: "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=500",
-      description: "Les dernières innovations"
+      title: 'CLASSIQUE',
+      image: 'https://media.istockphoto.com/id/537022544/fr/photo/en-aluminium-peut-de-boisson-%C3%A9nerg%C3%A9tique-glac%C3%A9-rouge-bull-arri%C3%A8re-plan.jpg?s=612x612&w=0&k=20&c=1do0_2Ud9FvMJtel09bKF5I2blx7C5ew6ti19X0rRRo=',
+      description: 'Les dernières innovations'
     },
     {
       id: 2,
-      title: "Sport",
-      image: "https://images.unsplash.com/photo-1601925260368-ae2f83cf8b7f?w=500",
-      description: "Équipements sportifs"
+      title: 'EDITIONS',
+      image: 'https://i.pinimg.com/550x/dd/ed/7e/dded7e2b6be6af67421169197ab62fae.jpg',
+      description: 'Équipements sportifs'
     }
   ];
 
   return (
-    <div className="min-h-screen bg-gray-950">
-      {/* Hero Section */}
-      <section className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:14px_24px]" />
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-purple-500/10" />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-          <div className="py-20 md:py-28">
-            <h1 className="text-4xl md:text-6xl font-bold text-center bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent mb-6">
-              Découvrez Notre Collection Tech & Sport
+    <div className="relative min-h-screen overflow-hidden">
+      {/* Vidéo en arrière-plan */}
+      <video
+        className="absolute top-0 left-0 w-full h-full object-cover"
+        src="/videos/RedBullAdvertisement.mp4"
+        autoPlay
+        muted
+        loop
+        playsInline
+      />
+
+      {/* Overlay sombre pour lisibilité */}
+      <div className="relative z-10 bg-black/60 min-h-screen flex flex-col">
+        {/* Hero Section */}
+        <section className="flex-grow">
+          <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 text-center py-20 md:py-28">
+            <h1 className="text-8xl md:text-6xl font-bold text-white mb-6">
+              Découvrez Notre Collection Red Bull
             </h1>
-            <p className="text-gray-400 text-center text-lg md:text-xl max-w-2xl mx-auto mb-8">
-              Les dernières innovations technologiques et les meilleurs équipements sportifs sélectionnés pour vous.
+            <p className="text-gray-200 text-lg md:text-xl max-w-2xl mx-auto mb-8">
+              La boisson énergisante emblématique, associée aux dernières innovations et aux équipements sportifs de pointe.
             </p>
             <div className="flex justify-center gap-4">
               <Link to="/products">
-                <Button className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500">
+                <Button className="bg-red-600 hover:bg-red-500">
                   Explorer les produits
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </Link>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Features Section */}
-      <section className="py-16 bg-gray-900/50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-center text-white mb-12">
-            Pourquoi nous choisir ?
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {[
-              {
-                icon: ShoppingBag,
-                title: "Produits Premium",
-                description: "Sélection rigoureuse des meilleurs produits"
-              },
-              {
-                icon: Shield,
-                title: "Paiement Sécurisé",
-                description: "Vos transactions sont 100% sécurisées"
-              },
-              {
-                icon: Truck,
-                title: "Livraison Rapide",
-                description: "Livraison en 24/48h partout en France"
-              },
-              {
-                icon: Clock,
-                title: "Support 24/7",
-                description: "Une équipe à votre écoute"
-              }
-            ].map((feature, index) => (
-              <Card key={index} className="bg-gray-800/50 border-gray-700 p-6 hover:bg-gray-800/80 transition-colors">
-                <feature.icon className="h-8 w-8 text-blue-500 mb-4" />
-                <h3 className="text-xl font-semibold text-white mb-2">{feature.title}</h3>
-                <p className="text-gray-400">{feature.description}</p>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Categories Section */}
-      <section className="py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-center text-white mb-12">
-            Nos Catégories
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {categories.map((category) => (
-              <Link key={category.id} to={`/products?category=${category.id}`}>
-                <Card className="overflow-hidden group cursor-pointer transform hover:scale-105 transition-transform duration-300">
-                  <div className="aspect-[16/9] relative overflow-hidden">
-                    <img
-                      src={category.image || "/placeholder.svg"}
-                      alt={category.title}
-                      className="object-cover w-full h-full"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
-                    <div className="absolute bottom-0 left-0 right-0 p-6">
-                      <h3 className="text-2xl font-bold text-white mb-2">{category.title}</h3>
-                      <p className="text-gray-200">{category.description}</p>
-                    </div>
-                  </div>
-                </Card>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Best Sellers Section */}
-      <section className="py-16 bg-gray-900/30">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-center text-white mb-12">
-            Meilleures Ventes
-          </h2>
-          {loading ? (
-            <div className="flex justify-center">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
-            </div>
-          ) : (
+        {/* Features Section */}
+        <section className="py-16 bg-black/50">
+          <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 className="text-3xl font-bold text-center text-white mb-12">
+              Pourquoi nous choisir ?
+            </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-              {bestSellers.map((product) => (
-                <Link key={product.id} to={`/products/${product.id}`}>
-                  <Card className="bg-gray-800/50 border-gray-700 overflow-hidden group h-full">
-                    <div className="aspect-square relative">
+              {[
+                {
+                  icon: ShoppingBag,
+                  title: 'Produits Premium',
+                  description: 'Sélection rigoureuse des meilleurs produits'
+                },
+                {
+                  icon: Shield,
+                  title: 'Paiement Sécurisé',
+                  description: 'Transactions 100% sécurisées'
+                },
+                {
+                  icon: Truck,
+                  title: 'Livraison Rapide',
+                  description: 'Livraison en 24/48h partout en France'
+                },
+                {
+                  icon: Clock,
+                  title: 'Support 24/7',
+                  description: 'Une équipe à votre écoute'
+                }
+              ].map((feature, index) => (
+                <Card
+                  key={index}
+                  className="bg-gray-800/70 border-gray-700 p-6 transition-colors hover:bg-gray-800/90"
+                >
+                  <feature.icon className="h-8 w-8 text-white-600 mb-4" />
+                  <h3 className="text-xl font-semibold text-white mb-2">
+                    {feature.title}
+                  </h3>
+                  <p className="text-gray-400">{feature.description}</p>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Categories Section */}
+        <section className="py-16">
+          <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 className="text-3xl font-bold text-center text-white mb-12">
+              Nos Catégories
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {categories.map((category) => (
+                <Link key={category.id} to={`/products?category=${category.id}`}>
+                  <Card className="overflow-hidden group cursor-pointer transform hover:scale-105 transition-transform duration-300">
+                    <div className="aspect-[16/9] relative overflow-hidden">
                       <img
-                        src={product.image_url || "/placeholder.svg"}
-                        alt={product.nom}
-                        className="object-cover w-full h-full transform group-hover:scale-110 transition-transform duration-500"
+                        src={category.image || '/placeholder.svg'}
+                        alt={category.title}
+                        className="object-cover w-full h-full"
                       />
-                      <div className="absolute top-2 right-2 bg-blue-500 text-white px-2 py-1 rounded text-sm">
-                        Populaire
-                      </div>
-                    </div>
-                    <div className="p-4">
-                      <h3 className="text-lg font-semibold text-white mb-2">{product.nom}</h3>
-                      <div className="flex items-center gap-1 mb-2">
-                        {[...Array(5)].map((_, i) => (
-                          <Star key={i} className="h-4 w-4 fill-current text-yellow-500" />
-                        ))}
-                      </div>
-                      <p className="text-gray-400 mb-4 line-clamp-2">{product.description}</p>
-                      <div className="flex items-center justify-between">
-                        <span className="text-lg font-bold text-white">{Number(product.prix).toFixed(2)} €</span>
-                        <Button size="sm">Voir plus</Button>
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
+                      <div className="absolute bottom-0 left-0 right-0 p-6">
+                        <h3 className="text-2xl font-bold text-white mb-2">
+                          {category.title}
+                        </h3>
+                        <p className="text-gray-200">{category.description}</p>
                       </div>
                     </div>
                   </Card>
                 </Link>
               ))}
             </div>
-          )}
-        </div>
-      </section>
+          </div>
+        </section>
 
-      {/* CTA Section */}
-      <section className="py-20 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-purple-600/20" />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-          <div className="text-center">
+        {/* Best Sellers Section */}
+        <section className="py-16 bg-black/30">
+          <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 className="text-3xl font-bold text-center text-white mb-12">
+              Meilleures Ventes
+            </h2>
+            {loading ? (
+              <div className="flex justify-center">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600"></div>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                {bestSellers.map((product) => (
+                  <Link key={product.id} to={`/products/${product.id}`}>
+                    <Card className="bg-gray-800/70 border-gray-700 overflow-hidden group h-full">
+                      <div className="aspect-square relative">
+                        <img
+                          src={product.image_url || '/placeholder.svg'}
+                          alt={product.nom}
+                          className="object-cover w-full h-full transform group-hover:scale-110 transition-transform duration-500"
+                        />
+                        <div className="absolute top-2 right-2 bg-red-600 text-white px-2 py-1 rounded text-sm">
+                          Populaire
+                        </div>
+                      </div>
+                      <div className="p-4">
+                        <h3 className="text-lg font-semibold text-white mb-2">
+                          {product.nom}
+                        </h3>
+                        <div className="flex items-center gap-1 mb-2">
+                          {[...Array(5)].map((_, i) => (
+                            <Star key={i} className="h-4 w-4 fill-current text-yellow-500" />
+                          ))}
+                        </div>
+                        <p className="text-gray-400 mb-4 line-clamp-2">
+                          {product.description}
+                        </p>
+                        <div className="flex items-center justify-between">
+                          <span className="text-lg font-bold text-white">
+                            {Number(product.prix).toFixed(2)} €
+                          </span>
+                          <Button size="sm" className="bg-red-600 hover:bg-red-500">
+                            Voir plus
+                          </Button>
+                        </div>
+                      </div>
+                    </Card>
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
+        </section>
+
+        {/* CTA Section */}
+        <section className="py-20">
+          <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
-              Prêt à découvrir nos produits ?
+              Prêt à booster votre énergie ?
             </h2>
             <p className="text-gray-300 text-lg mb-8 max-w-2xl mx-auto">
-              Rejoignez des milliers de clients satisfaits et découvrez notre sélection de produits premium.
+              Rejoignez des milliers de fans de Red Bull et découvrez notre sélection exclusive.
             </p>
             <Link to="/products">
-              <Button size="lg" className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500">
+              <Button size="lg" className="bg-red-600 hover:bg-red-500">
                 Commencer vos achats
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </Link>
           </div>
-        </div>
-      </section>
+        </section>
+      </div>
     </div>
   );
 };
 
 export default Home;
-

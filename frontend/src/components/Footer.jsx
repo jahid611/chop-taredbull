@@ -52,7 +52,7 @@ const Footer = () => {
 
   return (
     <footer className="bg-gray-900 border-t border-gray-800">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* À propos */}
           <div>
@@ -106,15 +106,15 @@ const Footer = () => {
             <ul className="space-y-2">
               <li className="flex items-center text-gray-400">
                 <Mail className="h-5 w-5 mr-2" />
-                contact@example.com
+                contact@choptaredbull.com
               </li>
               <li className="flex items-center text-gray-400">
                 <Phone className="h-5 w-5 mr-2" />
-                01 23 45 67 89
+                04 77 55 69 03
               </li>
               <li className="flex items-center text-gray-400">
                 <MapPin className="h-5 w-5 mr-2" />
-                Paris, France
+                Saint Etienne, France
               </li>
             </ul>
           </div>
@@ -217,7 +217,7 @@ const Footer = () => {
 
         <div className="mt-12 pt-8 border-t border-gray-800">
           <p className="text-center text-gray-400">
-            © {new Date().getFullYear()} E-Commerce. Tous droits réservés.
+            © {new Date().getFullYear()} Chop'ta RedBull. Tous droits réservés. Jahid SAYAD.
           </p>
         </div>
       </div>
