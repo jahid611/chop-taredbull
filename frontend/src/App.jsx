@@ -9,6 +9,8 @@ import Register from './components/Register';
 import Cart from './components/Cart';
 import Profile from './pages/Profile';
 import './global.css'; // Assurez-vous que ce fichier existe
+import AdminCanPage from './components/AdminCanPage';
+
 
 function App() {
   return (
@@ -17,11 +19,14 @@ function App() {
       <main className="flex-grow">
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/products/admin" element={<AdminCanPage />} />
+
           <Route path="/products" element={<Products />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/profile" element={<Profile />} />
+
         </Routes>
       </main>
       <Footer />
